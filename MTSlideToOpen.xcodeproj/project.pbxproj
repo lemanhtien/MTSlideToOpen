@@ -12,6 +12,7 @@
 		BD0B6A141F8F4E1200D3AC94 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD0B6A121F8F4E1200D3AC94 /* Main.storyboard */; };
 		BD0B6A161F8F4E1200D3AC94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD0B6A151F8F4E1200D3AC94 /* Assets.xcassets */; };
 		BD0B6A191F8F4E1200D3AC94 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD0B6A171F8F4E1200D3AC94 /* LaunchScreen.storyboard */; };
+		BD392E561F8F5835005F0194 /* MTSlideToOpenControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD392E551F8F5835005F0194 /* MTSlideToOpenControl.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		BD0B6A151F8F4E1200D3AC94 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BD0B6A181F8F4E1200D3AC94 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BD0B6A1A1F8F4E1200D3AC94 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BD392E551F8F5835005F0194 /* MTSlideToOpenControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTSlideToOpenControl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 		BD0B6A0D1F8F4E1200D3AC94 /* MTSlideToOpen */ = {
 			isa = PBXGroup;
 			children = (
+				BD392E541F8F5790005F0194 /* Source */,
 				BD0B6A0E1F8F4E1200D3AC94 /* AppDelegate.swift */,
 				BD0B6A101F8F4E1200D3AC94 /* ViewController.swift */,
 				BD0B6A121F8F4E1200D3AC94 /* Main.storyboard */,
@@ -63,6 +66,14 @@
 			);
 			path = MTSlideToOpen;
 			sourceTree = "<group>";
+		};
+		BD392E541F8F5790005F0194 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				BD392E551F8F5835005F0194 /* MTSlideToOpenControl.swift */,
+			);
+			path = Source;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -137,6 +148,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BD0B6A111F8F4E1200D3AC94 /* ViewController.swift in Sources */,
+				BD392E561F8F5835005F0194 /* MTSlideToOpenControl.swift in Sources */,
 				BD0B6A0F1F8F4E1200D3AC94 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

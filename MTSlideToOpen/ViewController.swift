@@ -9,17 +9,18 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    let slideToOpen: MTSlideToOpenControl = {
+        let slide = MTSlideToOpenControl(frame: CGRect(x: 50, y: 100, width: 250, height: 50))
+        return slide
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        self.view.addSubview(slideToOpen)
+        slideToOpen.frame = CGRect(x: 26, y: 400, width: 317, height: 56)
+        slideToOpen.sliderTopGap = 6
+        slideToOpen.sliderCornerRadious = 22
+        slideToOpen.canAutomaticResetState = true
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
 }
 
