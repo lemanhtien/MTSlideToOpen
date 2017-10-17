@@ -13,22 +13,22 @@ class ViewController: UIViewController, MTSlideToOpenDelegate {
         let slide = MTSlideToOpenView(frame: CGRect(x: 26, y: 100, width: 317, height: 56))
         slide.sliderViewTopDistance = 0
         slide.sliderCornerRadious = 28
-        slide.buttonColor = .red
-        slide.slidingColor = UIColor(red:141.0/255, green:19.0/255, blue:65.0/255, alpha:1.0)
+        slide.thumnailImageView.backgroundColor = .red
+        slide.draggedView.backgroundColor = UIColor(red:141.0/255, green:19.0/255, blue:65.0/255, alpha:1.0)
         slide.delegate = self
-        slide.thumbnailIcon = #imageLiteral(resourceName: "ic_arrow")
+        slide.thumnailImageView.image = #imageLiteral(resourceName: "ic_arrow")
         return slide
     }()
     lazy var slideToLock: MTSlideToOpenView = {
         let slide = MTSlideToOpenView(frame: CGRect(x: 26, y: 200, width: 317, height: 56))
         slide.sliderViewTopDistance = 0
         slide.sliderCornerRadious = 28
-        slide.buttonColor = UIColor(red:200.0/255, green:200.0/255, blue:200.0/255, alpha:1.0)
-        slide.slidingColor = UIColor(red:200.0/255, green:200.0/255, blue:200.0/255, alpha:1.0)
+        slide.thumnailImageView.backgroundColor  = UIColor(red:200.0/255, green:200.0/255, blue:200.0/255, alpha:1.0)
+        slide.draggedView.backgroundColor = UIColor(red:200.0/255, green:200.0/255, blue:200.0/255, alpha:1.0)
         slide.delegate = self
-        slide.buttonViewLeadingDistance = 20
-        slide.labelText = "Slide To Lock"
-        slide.thumbnailIcon = #imageLiteral(resourceName: "ic_arrow")
+        slide.thumbnailViewLeadingDistance = 20
+        slide.defaultLabelText = "Slide To Lock"
+        slide.thumnailImageView.image = #imageLiteral(resourceName: "ic_arrow")
         return slide
     }()
     lazy var slideToUnlock: MTSlideToOpenView = {
@@ -36,8 +36,8 @@ class ViewController: UIViewController, MTSlideToOpenDelegate {
         slide.sliderViewTopDistance = 6
         slide.sliderCornerRadious = 22
         slide.delegate = self
-        slide.labelText = "Slide To Unlock"
-        slide.thumbnailIcon = #imageLiteral(resourceName: "ic_arrow")
+        slide.defaultLabelText = "Slide To Unlock"
+        slide.thumnailImageView.image = #imageLiteral(resourceName: "ic_arrow")
         return slide
     }()
     

@@ -13,30 +13,30 @@ protocol MTSlideToOpenDelegate {
 }
 
 class MTSlideToOpenView: UIView {
-    // MARK: Private Views
-    private let textLabel: UILabel = {
+    // MARK: All Views
+    let textLabel: UILabel = {
        let label = UILabel.init()
         return label
     }()
-    private let thumnailView: UIImageView = {
+    let thumnailImageView: UIImageView = {
         let view = UIImageView()
         view.isUserInteractionEnabled = true        
         view.contentMode = .center
         return view
     }()
-    private let sliderHolderView: UIView = {
+    let sliderHolderView: UIView = {
         let view = UIView()
         return view
     }()
-    private let draggedView: UIView = {
+    let draggedView: UIView = {
         let view = UIView()
         return view
     }()
-    private let view: UIView = {
+    let view: UIView = {
        let view = UIView()
         return view
     }()
-    // MARK: Public Properties
+    // MARK: Public properties
     var delegate: MTSlideToOpenDelegate?
     var animationVelocity: Double = 0.2
     var sliderViewTopDistance: CGFloat = 8.0 {
@@ -45,86 +45,78 @@ class MTSlideToOpenView: UIView {
             layoutIfNeeded()
         }
     }
-    var buttonViewLeadingDistance: CGFloat = 0.0 {
+    var thumbnailViewLeadingDistance: CGFloat = 0.0 {
         didSet {
-            updateButtonViewLeadingPosition(buttonViewLeadingDistance)
-        }
-    }
-    var sliderCornerRadious: CGFloat = 30.0 {
-        didSet {
-            setStyle()
+            updateThumbnailViewLeadingPosition(thumbnailViewLeadingDistance)
             layoutIfNeeded()
-        }
-    }
-    var isEnabled:Bool = true {
-        didSet {
-            setStyle()
-        }
-    }
-    var disableButtonViewColor: UIColor = UIColor(red:182.0/255, green:192.0/255, blue:202.0/255, alpha:1) {
-        didSet {
-            setStyle()
-        }
-    }
-    var disableSliderViewColor: UIColor = UIColor(red:245.0/255, green:247.0/255, blue:250.0/255, alpha:1) {
-        didSet {
-            setStyle()
-        }
-    }
-    var sliderBackgroundColor: UIColor = UIColor(red:0.1, green:0.61, blue:0.84, alpha:0.1) {
-        didSet {
-            setStyle()
-        }
-    }
-    
-    var slidingColor:UIColor = UIColor(red:25.0/255, green:155.0/255, blue:215.0/255, alpha:0.7) {
-        didSet {
-            setStyle()
-        }
-    }
-    
-    var buttonColor: UIColor = UIColor(red:0.1, green:0.61, blue:0.84, alpha:1) {
-        didSet {
-            setStyle()
-        }
-    }
-    
-    var labelText: String = "Swipe to sign document" {
-        didSet {
-            setStyle()
-        }
-    }
-    var labelFont: UIFont = UIFont.systemFont(ofSize: 15.0) {
-        didSet {
-            setStyle()
-        }
-    }
-    var labelTextColor: UIColor = UIColor(red:0.1, green:0.61, blue:0.84, alpha:1) {
-        didSet {
-            setStyle()
-        }
-    }
-    var labelTextAlignment: NSTextAlignment = .center {
-        didSet {
-            setStyle()
         }
     }
     var textLabelLeadingDistance: CGFloat = 0 {
         didSet {
             leadingTextLabelConstraint?.constant = textLabelLeadingDistance
+            layoutIfNeeded()
         }
     }
-    var thumbnailIcon: UIImage? {
+    var isEnabled:Bool = true {
         didSet {
-            setStyle()
+            if isEnabled {
+                thumnailImageView.backgroundColor = defaultThumbnailColor
+                sliderHolderView.backgroundColor = defaultSliderBackgroundColor
+                textLabel.text = defaultLabelText
+            } else {
+                thumnailImageView.backgroundColor = disableThumbnailViewColor
+                sliderHolderView.backgroundColor = disableSliderViewColor
+                textLabel.text = ""
+            }
+        }
+    }
+    // MARK: Default styles
+    var sliderCornerRadious: CGFloat = 30.0 {
+        didSet {
+            sliderHolderView.layer.cornerRadius = sliderCornerRadious
+            draggedView.layer.cornerRadius = sliderCornerRadious
+        }
+    }
+    var disableThumbnailViewColor: UIColor = UIColor(red:182.0/255, green:192.0/255, blue:202.0/255, alpha:1) {
+        didSet {
+            if !isEnabled {
+                thumnailImageView.backgroundColor = disableThumbnailViewColor
+            }
+        }
+    }
+    var disableSliderViewColor: UIColor = UIColor(red:245.0/255, green:247.0/255, blue:250.0/255, alpha:1) {
+        didSet {
+            if !isEnabled {
+                sliderHolderView.backgroundColor = disableSliderViewColor
+            }
+        }
+    }
+    var defaultSliderBackgroundColor: UIColor = UIColor(red:0.1, green:0.61, blue:0.84, alpha:0.1) {
+        didSet {
+            sliderHolderView.backgroundColor = defaultSliderBackgroundColor
         }
     }
     
+    var defaultSlidingColor:UIColor = UIColor(red:25.0/255, green:155.0/255, blue:215.0/255, alpha:0.7) {
+        didSet {
+            draggedView.backgroundColor = defaultSlidingColor
+        }
+    }
+    var defaultThumbnailColor:UIColor = UIColor(red:25.0/255, green:155.0/255, blue:215.0/255, alpha:1) {
+        didSet {
+            thumnailImageView.backgroundColor = defaultSlidingColor
+        }
+    }
+    var defaultLabelText: String = "Swipe to open" {
+        didSet {
+            textLabel.text = defaultLabelText
+        }
+    }
     // MARK: Private Properties
-    private var leadingButtonViewConstraint: NSLayoutConstraint?
+    private var leadingThumbnailViewConstraint: NSLayoutConstraint?
     private var leadingTextLabelConstraint: NSLayoutConstraint?
     private var topSliderConstraint: NSLayoutConstraint?
-    private var xPositionInButtonView: CGFloat = 0
+    private var xPositionInThumbnailView: CGFloat = 0
     private var xEndingPoint: CGFloat = 0
     private var buttonHeight: CGFloat = 0
     private var isFinished: Bool = false
@@ -141,22 +133,22 @@ class MTSlideToOpenView: UIView {
     
     private func setupView() {
         self.addSubview(view)
-        view.addSubview(thumnailView)
+        view.addSubview(thumnailImageView)
         view.addSubview(sliderHolderView)
         view.addSubview(draggedView)
         sliderHolderView.addSubview(textLabel)
-        view.bringSubview(toFront: self.thumnailView)
+        view.bringSubview(toFront: self.thumnailImageView)
         setupConstraint()
         setStyle()
         // Add pan gesture
         panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(self.handlePanGesture(_:)))
         panGestureRecognizer.minimumNumberOfTouches = 1
-        thumnailView.addGestureRecognizer(panGestureRecognizer)
+        thumnailImageView.addGestureRecognizer(panGestureRecognizer)
     }
     
     private func setupConstraint() {
         view.translatesAutoresizingMaskIntoConstraints = false
-        thumnailView.translatesAutoresizingMaskIntoConstraints = false
+        thumnailImageView.translatesAutoresizingMaskIntoConstraints = false
         sliderHolderView.translatesAutoresizingMaskIntoConstraints = false
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         draggedView.translatesAutoresizingMaskIntoConstraints = false
@@ -166,11 +158,11 @@ class MTSlideToOpenView: UIView {
         view.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         view.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         // Setup for circle View
-        leadingButtonViewConstraint = thumnailView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
-        leadingButtonViewConstraint?.isActive = true
-        thumnailView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        thumnailView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        thumnailView.heightAnchor.constraint(equalTo: thumnailView.widthAnchor).isActive = true
+        leadingThumbnailViewConstraint = thumnailImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+        leadingThumbnailViewConstraint?.isActive = true
+        thumnailImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        thumnailImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        thumnailImageView.heightAnchor.constraint(equalTo: thumnailImageView.widthAnchor).isActive = true
         // Setup for slider holder view
         topSliderConstraint = sliderHolderView.topAnchor.constraint(equalTo: view.topAnchor, constant: sliderViewTopDistance)
         topSliderConstraint?.isActive = true
@@ -187,49 +179,43 @@ class MTSlideToOpenView: UIView {
         draggedView.leadingAnchor.constraint(equalTo: sliderHolderView.leadingAnchor).isActive = true
         draggedView.topAnchor.constraint(equalTo: sliderHolderView.topAnchor).isActive = true
         draggedView.bottomAnchor.constraint(equalTo: sliderHolderView.bottomAnchor).isActive = true
-        draggedView.trailingAnchor.constraint(equalTo: thumnailView.trailingAnchor).isActive = true
+        draggedView.trailingAnchor.constraint(equalTo: thumnailImageView.trailingAnchor).isActive = true
     }
     
     private func setStyle() {
-        if isEnabled {
-            thumnailView.backgroundColor = buttonColor
-            sliderHolderView.backgroundColor = sliderBackgroundColor
-            textLabel.text = labelText
-        } else {
-            thumnailView.backgroundColor = disableButtonViewColor
-            sliderHolderView.backgroundColor = disableSliderViewColor
-            textLabel.text = ""
-        }
-        thumnailView.layer.masksToBounds = true
-        thumnailView.layer.cornerRadius = thumnailView.frame.width / 2.0
-        textLabel.font = labelFont
-        textLabel.textColor = labelTextColor
-        textLabel.textAlignment = labelTextAlignment
+        thumnailImageView.backgroundColor = defaultThumbnailColor
+        thumnailImageView.layer.masksToBounds = true
+        thumnailImageView.layer.cornerRadius = self.frame.height / 2.0
+        textLabel.text = defaultLabelText
+        textLabel.font = UIFont.systemFont(ofSize: 15.0)
+        textLabel.textColor = UIColor(red:0.1, green:0.61, blue:0.84, alpha:1)
+        textLabel.textAlignment = .center
+        sliderHolderView.backgroundColor = defaultSliderBackgroundColor
         sliderHolderView.layer.cornerRadius = sliderCornerRadious
-        draggedView.backgroundColor = slidingColor
+        draggedView.backgroundColor = defaultSlidingColor
         draggedView.layer.cornerRadius = sliderCornerRadious
-        buttonHeight = thumnailView.bounds.height
+        buttonHeight = thumnailImageView.bounds.height
         xEndingPoint = self.view.frame.maxX - buttonHeight
-        thumnailView.image = thumbnailIcon
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        thumnailView.layer.cornerRadius = thumnailView.frame.width / 2.0
-        thumnailView.layer.masksToBounds = true
         xEndingPoint = self.view.frame.maxX
         if buttonHeight == 0 {
-            buttonHeight = thumnailView.bounds.height
+            buttonHeight = thumnailImageView.bounds.height
             xEndingPoint = self.view.frame.maxX - buttonHeight
+            return
         }
+        thumnailImageView.layer.cornerRadius = thumnailImageView.frame.width / 2.0
+        thumnailImageView.layer.masksToBounds = true
     }
     
-    private func isTapOnButtonViewWithPoint(_ point: CGPoint) -> Bool{
-        return self.thumnailView.frame.contains(point)
+    private func isTapOnThumbnailViewWithPoint(_ point: CGPoint) -> Bool{
+        return self.thumnailImageView.frame.contains(point)
     }
     
-    private func updateButtonViewLeadingPosition(_ x: CGFloat) {
-        leadingButtonViewConstraint?.constant = x
+    private func updateThumbnailViewLeadingPosition(_ x: CGFloat) {
+        leadingThumbnailViewConstraint?.constant = x
         layoutIfNeeded()
     }
     
@@ -244,33 +230,33 @@ class MTSlideToOpenView: UIView {
             break
         case .changed:
             if translatedPoint >= xEndingPoint {
-                updateButtonViewLeadingPosition(xEndingPoint)
+                updateThumbnailViewLeadingPosition(xEndingPoint)
                 return
             }
-            if translatedPoint <= buttonViewLeadingDistance {
+            if translatedPoint <= thumbnailViewLeadingDistance {
                 textLabel.alpha = 1
-                updateButtonViewLeadingPosition(buttonViewLeadingDistance)
+                updateThumbnailViewLeadingPosition(thumbnailViewLeadingDistance)
                 return
             }
-            updateButtonViewLeadingPosition(translatedPoint)
+            updateThumbnailViewLeadingPosition(translatedPoint)
             textLabel.alpha = (xEndingPoint - translatedPoint) / xEndingPoint
             break
         case .ended:
             if translatedPoint >= xEndingPoint {
                 textLabel.alpha = 0
-                updateButtonViewLeadingPosition(xEndingPoint)
+                updateThumbnailViewLeadingPosition(xEndingPoint)
                 // Finish action
                 isFinished = true
                 delegate?.mtSlideToOpenDelegateDidFinish(self)
                 return
             }
-            if translatedPoint <= buttonViewLeadingDistance {
+            if translatedPoint <= thumbnailViewLeadingDistance {
                 textLabel.alpha = 1
-                updateButtonViewLeadingPosition(buttonViewLeadingDistance)
+                updateThumbnailViewLeadingPosition(thumbnailViewLeadingDistance)
                 return
             }
             UIView.animate(withDuration: animationVelocity) {
-                self.leadingButtonViewConstraint?.constant = self.buttonViewLeadingDistance
+                self.leadingThumbnailViewConstraint?.constant = self.thumbnailViewLeadingDistance
                 self.textLabel.alpha = 1
                 self.layoutIfNeeded()
             }
@@ -283,7 +269,7 @@ class MTSlideToOpenView: UIView {
     // Others
     func resetStateWithAnimation(_ animated: Bool) {
         let action = {
-            self.leadingButtonViewConstraint?.constant = 0
+            self.leadingThumbnailViewConstraint?.constant = 0
             self.textLabel.alpha = 1
             self.layoutIfNeeded()
             //
