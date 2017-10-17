@@ -16,6 +16,7 @@ class ViewController: UIViewController, MTSlideToOpenDelegate {
         slide.buttonColor = .red
         slide.slidingColor = UIColor(red:141.0/255, green:19.0/255, blue:65.0/255, alpha:1.0)
         slide.delegate = self
+        slide.thumbnailIcon = #imageLiteral(resourceName: "ic_arrow")
         return slide
     }()
     lazy var slideToLock: MTSlideToOpenView = {
@@ -27,6 +28,7 @@ class ViewController: UIViewController, MTSlideToOpenDelegate {
         slide.delegate = self
         slide.buttonViewLeadingDistance = 20
         slide.labelText = "Slide To Lock"
+        slide.thumbnailIcon = #imageLiteral(resourceName: "ic_arrow")
         return slide
     }()
     lazy var slideToUnlock: MTSlideToOpenView = {
@@ -35,6 +37,7 @@ class ViewController: UIViewController, MTSlideToOpenDelegate {
         slide.sliderCornerRadious = 22
         slide.delegate = self
         slide.labelText = "Slide To Unlock"
+        slide.thumbnailIcon = #imageLiteral(resourceName: "ic_arrow")
         return slide
     }()
     
