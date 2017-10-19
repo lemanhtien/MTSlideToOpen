@@ -8,14 +8,14 @@
 
 import UIKit
 
-protocol MTSlideToOpenDelegate {
+@objc protocol MTSlideToOpenDelegate {
     func mtSlideToOpenDelegateDidFinish(_ sender: MTSlideToOpenView)
 }
 
 class MTSlideToOpenView: UIView {
     // MARK: All Views
     let textLabel: UILabel = {
-       let label = UILabel.init()
+        let label = UILabel.init()
         return label
     }()
     let thumnailImageView: UIImageView = {
@@ -33,11 +33,11 @@ class MTSlideToOpenView: UIView {
         return view
     }()
     let view: UIView = {
-       let view = UIView()
+        let view = UIView()
         return view
     }()
     // MARK: Public properties
-    var delegate: MTSlideToOpenDelegate?
+    weak var delegate: MTSlideToOpenDelegate?
     var animationVelocity: Double = 0.2
     var sliderViewTopDistance: CGFloat = 8.0 {
         didSet {
@@ -120,7 +120,7 @@ class MTSlideToOpenView: UIView {
     private var xEndingPoint: CGFloat = 0
     private var buttonHeight: CGFloat = 0
     private var isFinished: Bool = false
-    
+    private var layoutSetuped: Bool = false
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -129,6 +129,7 @@ class MTSlideToOpenView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
+        setupView()
     }
     
     private func setupView() {
@@ -198,7 +199,7 @@ class MTSlideToOpenView: UIView {
         xEndingPoint = self.view.frame.maxX - buttonHeight
     }
     
-    override func layoutSubviews() {
+    override internal func layoutSubviews() {
         super.layoutSubviews()
         xEndingPoint = self.view.frame.maxX
         if buttonHeight == 0 {
@@ -220,7 +221,7 @@ class MTSlideToOpenView: UIView {
     }
     
     // MARK: UIPanGestureRecognizer
-    @objc func handlePanGesture(_ sender: UIPanGestureRecognizer) {
+    @objc private func handlePanGesture(_ sender: UIPanGestureRecognizer) {
         if isFinished || !isEnabled {
             return
         }
@@ -263,6 +264,14 @@ class MTSlideToOpenView: UIView {
             break
         default:
             break
+        }
+    }
+    
+    override func updateConstraints() {
+        super.updateConstraints()
+        if !layoutSetuped {
+            thumnailImageView.layer.cornerRadius = self.frame.height / 2.0
+            layoutSetuped = true
         }
     }
     
