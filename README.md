@@ -10,9 +10,15 @@ A simple SlideToUnlock iOS UI component
 
 ## Installation
 
-**Manual install**
+#### Using CocoaPod
+Just add to your Pod file
+> Pod 'MTSlideToOpen'
 
-Drag and drop folder `Source` to your project.
+#### Manual install
+
+Drag and drop folder `Source` to your project. Drag and drop to folder.
+
+
 
 ## Usage
 ```
