@@ -8,56 +8,56 @@
 
 import UIKit
 
-@objc protocol MTSlideToOpenDelegate {
+@objc public protocol MTSlideToOpenDelegate {
     func mtSlideToOpenDelegateDidFinish(_ sender: MTSlideToOpenView)
 }
 
-class MTSlideToOpenView: UIView {
+public class MTSlideToOpenView: UIView {
     // MARK: All Views
-    let textLabel: UILabel = {
+    public let textLabel: UILabel = {
         let label = UILabel.init()
         return label
     }()
-    let thumnailImageView: UIImageView = {
-        let view = UIImageView()
+    public let thumnailImageView: UIImageView = {
+        let view = MTRoundImageView()
         view.isUserInteractionEnabled = true        
         view.contentMode = .center
         return view
     }()
-    let sliderHolderView: UIView = {
+    public let sliderHolderView: UIView = {
         let view = UIView()
         return view
     }()
-    let draggedView: UIView = {
+    public let draggedView: UIView = {
         let view = UIView()
         return view
     }()
-    let view: UIView = {
+    public let view: UIView = {
         let view = UIView()
         return view
     }()
     // MARK: Public properties
-    weak var delegate: MTSlideToOpenDelegate?
-    var animationVelocity: Double = 0.2
-    var sliderViewTopDistance: CGFloat = 8.0 {
+    public weak var delegate: MTSlideToOpenDelegate?
+    public var animationVelocity: Double = 0.2
+    public var sliderViewTopDistance: CGFloat = 8.0 {
         didSet {
             topSliderConstraint?.constant = sliderViewTopDistance
             layoutIfNeeded()
         }
     }
-    var thumbnailViewLeadingDistance: CGFloat = 0.0 {
+    public var thumbnailViewLeadingDistance: CGFloat = 0.0 {
         didSet {
             updateThumbnailViewLeadingPosition(thumbnailViewLeadingDistance)
             layoutIfNeeded()
         }
     }
-    var textLabelLeadingDistance: CGFloat = 0 {
+    public var textLabelLeadingDistance: CGFloat = 0 {
         didSet {
             leadingTextLabelConstraint?.constant = textLabelLeadingDistance
             layoutIfNeeded()
         }
     }
-    var isEnabled:Bool = true {
+    public var isEnabled:Bool = true {
         didSet {
             if isEnabled {
                 thumnailImageView.backgroundColor = defaultThumbnailColor
@@ -71,43 +71,43 @@ class MTSlideToOpenView: UIView {
         }
     }
     // MARK: Default styles
-    var sliderCornerRadious: CGFloat = 30.0 {
+    public var sliderCornerRadious: CGFloat = 30.0 {
         didSet {
             sliderHolderView.layer.cornerRadius = sliderCornerRadious
             draggedView.layer.cornerRadius = sliderCornerRadious
         }
     }
-    var disableThumbnailViewColor: UIColor = UIColor(red:182.0/255, green:192.0/255, blue:202.0/255, alpha:1) {
+    public var disableThumbnailViewColor: UIColor = UIColor(red:182.0/255, green:192.0/255, blue:202.0/255, alpha:1) {
         didSet {
             if !isEnabled {
                 thumnailImageView.backgroundColor = disableThumbnailViewColor
             }
         }
     }
-    var disableSliderViewColor: UIColor = UIColor(red:245.0/255, green:247.0/255, blue:250.0/255, alpha:1) {
+    public var disableSliderViewColor: UIColor = UIColor(red:245.0/255, green:247.0/255, blue:250.0/255, alpha:1) {
         didSet {
             if !isEnabled {
                 sliderHolderView.backgroundColor = disableSliderViewColor
             }
         }
     }
-    var defaultSliderBackgroundColor: UIColor = UIColor(red:0.1, green:0.61, blue:0.84, alpha:0.1) {
+    public var defaultSliderBackgroundColor: UIColor = UIColor(red:0.1, green:0.61, blue:0.84, alpha:0.1) {
         didSet {
             sliderHolderView.backgroundColor = defaultSliderBackgroundColor
         }
     }
     
-    var defaultSlidingColor:UIColor = UIColor(red:25.0/255, green:155.0/255, blue:215.0/255, alpha:0.7) {
+    public var defaultSlidingColor:UIColor = UIColor(red:25.0/255, green:155.0/255, blue:215.0/255, alpha:0.7) {
         didSet {
             draggedView.backgroundColor = defaultSlidingColor
         }
     }
-    var defaultThumbnailColor:UIColor = UIColor(red:25.0/255, green:155.0/255, blue:215.0/255, alpha:1) {
+    public var defaultThumbnailColor:UIColor = UIColor(red:25.0/255, green:155.0/255, blue:215.0/255, alpha:1) {
         didSet {
             thumnailImageView.backgroundColor = defaultSlidingColor
         }
     }
-    var defaultLabelText: String = "Swipe to open" {
+    public var defaultLabelText: String = "Swipe to open" {
         didSet {
             textLabel.text = defaultLabelText
         }
@@ -120,14 +120,14 @@ class MTSlideToOpenView: UIView {
     private var xEndingPoint: CGFloat = 0
     private var buttonHeight: CGFloat = 0
     private var isFinished: Bool = false
-    private var layoutSetuped: Bool = false
-    override init(frame: CGRect) {
+    
+    override public init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
     }
     private var panGestureRecognizer: UIPanGestureRecognizer!
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
         setupView()
     }
@@ -185,8 +185,6 @@ class MTSlideToOpenView: UIView {
     
     private func setStyle() {
         thumnailImageView.backgroundColor = defaultThumbnailColor
-        thumnailImageView.layer.masksToBounds = true
-        thumnailImageView.layer.cornerRadius = self.frame.height / 2.0
         textLabel.text = defaultLabelText
         textLabel.font = UIFont.systemFont(ofSize: 15.0)
         textLabel.textColor = UIColor(red:0.1, green:0.61, blue:0.84, alpha:1)
@@ -199,7 +197,7 @@ class MTSlideToOpenView: UIView {
         xEndingPoint = self.view.frame.maxX - buttonHeight
     }
     
-    override internal func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         xEndingPoint = self.view.frame.maxX
         if buttonHeight == 0 {
@@ -207,8 +205,6 @@ class MTSlideToOpenView: UIView {
             xEndingPoint = self.view.frame.maxX - buttonHeight
             return
         }
-        thumnailImageView.layer.cornerRadius = thumnailImageView.frame.width / 2.0
-        thumnailImageView.layer.masksToBounds = true
     }
     
     private func isTapOnThumbnailViewWithPoint(_ point: CGPoint) -> Bool{
@@ -266,17 +262,8 @@ class MTSlideToOpenView: UIView {
             break
         }
     }
-    
-    override func updateConstraints() {
-        super.updateConstraints()
-        if !layoutSetuped {
-            thumnailImageView.layer.cornerRadius = self.frame.height / 2.0
-            layoutSetuped = true
-        }
-    }
-    
     // Others
-    func resetStateWithAnimation(_ animated: Bool) {
+    public func resetStateWithAnimation(_ animated: Bool) {
         let action = {
             self.leadingThumbnailViewConstraint?.constant = 0
             self.textLabel.alpha = 1
@@ -291,5 +278,14 @@ class MTSlideToOpenView: UIView {
         } else {
             action()
         }
+    }
+}
+
+
+class MTRoundImageView: UIImageView {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        let radius: CGFloat = self.bounds.size.width / 2.0
+        self.layer.cornerRadius = radius
     }
 }
