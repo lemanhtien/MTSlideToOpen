@@ -59,36 +59,15 @@ public class MTSlideToOpenView: UIView {
     }
     public var isEnabled:Bool = true {
         didSet {
-            if isEnabled {
-                thumnailImageView.backgroundColor = defaultThumbnailColor
-                sliderHolderView.backgroundColor = defaultSliderBackgroundColor
-                textLabel.text = defaultLabelText
-            } else {
-                thumnailImageView.backgroundColor = disableThumbnailViewColor
-                sliderHolderView.backgroundColor = disableSliderViewColor
-                textLabel.text = ""
-            }
+            animationChangedEnabledBlock?(isEnabled)
         }
     }
+    public var animationChangedEnabledBlock:((Bool) -> Void)?
     // MARK: Default styles
     public var sliderCornerRadious: CGFloat = 30.0 {
         didSet {
             sliderHolderView.layer.cornerRadius = sliderCornerRadious
             draggedView.layer.cornerRadius = sliderCornerRadious
-        }
-    }
-    public var disableThumbnailViewColor: UIColor = UIColor(red:182.0/255, green:192.0/255, blue:202.0/255, alpha:1) {
-        didSet {
-            if !isEnabled {
-                thumnailImageView.backgroundColor = disableThumbnailViewColor
-            }
-        }
-    }
-    public var disableSliderViewColor: UIColor = UIColor(red:245.0/255, green:247.0/255, blue:250.0/255, alpha:1) {
-        didSet {
-            if !isEnabled {
-                sliderHolderView.backgroundColor = disableSliderViewColor
-            }
         }
     }
     public var defaultSliderBackgroundColor: UIColor = UIColor(red:0.1, green:0.61, blue:0.84, alpha:0.1) {
@@ -118,7 +97,6 @@ public class MTSlideToOpenView: UIView {
     private var topSliderConstraint: NSLayoutConstraint?
     private var xPositionInThumbnailView: CGFloat = 0
     private var xEndingPoint: CGFloat = 0
-    private var buttonHeight: CGFloat = 0
     private var isFinished: Bool = false
     
     override public init(frame: CGRect) {
@@ -129,7 +107,7 @@ public class MTSlideToOpenView: UIView {
     
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
-        setupView()
+        setupView()        
     }
     
     private func setupView() {
@@ -193,18 +171,7 @@ public class MTSlideToOpenView: UIView {
         sliderHolderView.layer.cornerRadius = sliderCornerRadious
         draggedView.backgroundColor = defaultSlidingColor
         draggedView.layer.cornerRadius = sliderCornerRadious
-        buttonHeight = thumnailImageView.bounds.height
-        xEndingPoint = self.view.frame.maxX - buttonHeight
-    }
-    
-    override public func layoutSubviews() {
-        super.layoutSubviews()
-        xEndingPoint = self.view.frame.maxX
-        if buttonHeight == 0 {
-            buttonHeight = thumnailImageView.bounds.height
-            xEndingPoint = self.view.frame.maxX - buttonHeight
-            return
-        }
+        xEndingPoint = self.view.frame.maxX - thumnailImageView.bounds.height
     }
     
     private func isTapOnThumbnailViewWithPoint(_ point: CGPoint) -> Bool{
@@ -214,6 +181,19 @@ public class MTSlideToOpenView: UIView {
     private func updateThumbnailViewLeadingPosition(_ x: CGFloat) {
         leadingThumbnailViewConstraint?.constant = x
         layoutIfNeeded()
+    }
+    
+    // MARK: Override methods
+    override public func layoutSubviews() {
+        super.layoutSubviews()
+        if thumnailImageView.bounds.height == 0 {
+            xEndingPoint = self.view.frame.maxX - thumnailImageView.bounds.height
+            return
+        }
+    }
+    override public func updateConstraints() {
+        super.updateConstraints()
+        xEndingPoint = self.view.frame.maxX - thumnailImageView.bounds.height
     }
     
     // MARK: UIPanGestureRecognizer

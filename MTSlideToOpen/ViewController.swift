@@ -32,12 +32,32 @@ class ViewController: UIViewController, MTSlideToOpenDelegate {
         return slide
     }()
     lazy var slideToUnlock: MTSlideToOpenView = {
-        let slide = MTSlideToOpenView(frame: CGRect(x: 26, y: 400, width: 317, height: 56))
+        let frame = CGRect(x: 26, y: 400, width: 317, height: 56)
+        let slide = MTSlideToOpenView(frame: frame)
         slide.sliderViewTopDistance = 6
         slide.sliderCornerRadious = 22
         slide.delegate = self
         slide.defaultLabelText = "Slide To Unlock"
         slide.thumnailImageView.image = #imageLiteral(resourceName: "ic_arrow")
+        slide.animationChangedEnabledBlock = { isEnabled in
+            if isEnabled {
+                slide.thumnailImageView.backgroundColor = slide.defaultThumbnailColor
+                slide.draggedView.isHidden = false
+                slide.thumnailImageView.backgroundColor = slide.defaultSliderBackgroundColor
+                slide.textLabel.text = slide.defaultLabelText
+                slide.thumnailImageView.layer.shadowOpacity = 0
+            } else {
+                slide.thumnailImageView.backgroundColor = UIColor(red:210.0/255, green:219.0/255, blue:228.0/255, alpha:0.8)
+                slide.thumnailImageView.layer.shadowColor = UIColor(red:0/255, green:0/255, blue:0/255, alpha:0.2).cgColor
+                slide.thumnailImageView.layer.shadowOffset = CGSize(width: 0, height: 25)
+                slide.thumnailImageView.layer.shadowRadius = 28
+                slide.thumnailImageView.layer.shadowOpacity = 1
+                slide.draggedView.isHidden = true
+                slide.sliderHolderView.backgroundColor = UIColor(red:245.0/255, green:247.0/255, blue:250.0/255, alpha:1)
+                slide.textLabel.text = ""
+            }
+        }
+        slide.isEnabled = false
         return slide
     }()
     
