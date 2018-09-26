@@ -116,7 +116,7 @@ public class MTSlideToOpenView: UIView {
         view.addSubview(sliderHolderView)
         view.addSubview(draggedView)
         sliderHolderView.addSubview(textLabel)
-        view.bringSubview(toFront: self.thumnailImageView)
+        view.bringSubviewToFront(self.thumnailImageView)
         setupConstraint()
         setStyle()
         // Add pan gesture
