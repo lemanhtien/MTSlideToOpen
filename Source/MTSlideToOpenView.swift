@@ -47,14 +47,13 @@ public class MTSlideToOpenView: UIView {
     }
     public var thumbnailViewLeadingDistance: CGFloat = 0.0 {
         didSet {
-            updateThumbnailViewLeadingPosition(thumbnailViewLeadingDistance)
-            layoutIfNeeded()
+            updateThumbnailViewLeadingPosition(thumbnailViewLeadingDistance)            
         }
     }
     public var textLabelLeadingDistance: CGFloat = 0 {
         didSet {
             leadingTextLabelConstraint?.constant = textLabelLeadingDistance
-            layoutIfNeeded()
+            setNeedsLayout()
         }
     }
     public var isEnabled:Bool = true {
@@ -96,7 +95,11 @@ public class MTSlideToOpenView: UIView {
     private var leadingTextLabelConstraint: NSLayoutConstraint?
     private var topSliderConstraint: NSLayoutConstraint?
     private var xPositionInThumbnailView: CGFloat = 0
-    private var xEndingPoint: CGFloat = 0
+    private var xEndingPoint: CGFloat {
+        get {
+            return (self.view.frame.maxX - thumnailImageView.bounds.height)
+        }
+    }
     private var isFinished: Bool = false
     
     override public init(frame: CGRect) {
@@ -171,7 +174,6 @@ public class MTSlideToOpenView: UIView {
         sliderHolderView.layer.cornerRadius = sliderCornerRadious
         draggedView.backgroundColor = defaultSlidingColor
         draggedView.layer.cornerRadius = sliderCornerRadious
-        xEndingPoint = self.view.frame.maxX - thumnailImageView.bounds.height
     }
     
     private func isTapOnThumbnailViewWithPoint(_ point: CGPoint) -> Bool{
@@ -180,20 +182,7 @@ public class MTSlideToOpenView: UIView {
     
     private func updateThumbnailViewLeadingPosition(_ x: CGFloat) {
         leadingThumbnailViewConstraint?.constant = x
-        layoutIfNeeded()
-    }
-    
-    // MARK: Override methods
-    override public func layoutSubviews() {
-        super.layoutSubviews()
-        if thumnailImageView.bounds.height == 0 {
-            xEndingPoint = self.view.frame.maxX - thumnailImageView.bounds.height
-            return
-        }
-    }
-    override public func updateConstraints() {
-        super.updateConstraints()
-        xEndingPoint = self.view.frame.maxX - thumnailImageView.bounds.height
+        setNeedsLayout()
     }
     
     // MARK: UIPanGestureRecognizer
