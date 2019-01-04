@@ -5,7 +5,7 @@ A simple SlideToUnlock iOS UI component
 
 
 ## Requirements
-* Swift 4 
+* Swift 4.2
 * iOS 9.0 or later
 
 ## Installation

@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "MTSlideToOpen"
-  s.version      = "1.2.0"
+  s.version      = "1.2.1"
   s.summary      = "A simple SlideToUnlock iOS UI component."
 
   s.description  = "A simple iOS UI component acts Slide To Unlock."
@@ -45,7 +45,7 @@ Pod::Spec.new do |s|
 
   s.source_files  = "Source"
   s.framework  = "UIKit"
-  s.pod_target_xcconfig = { "SWIFT_VERSION" => "4.0" }
+  s.pod_target_xcconfig = { "SWIFT_VERSION" => "4.2" }
   s.requires_arc = true
 
 
