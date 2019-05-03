@@ -26,9 +26,22 @@ class ViewController: UIViewController, MTSlideToOpenDelegate {
         slide.thumnailImageView.backgroundColor  = UIColor(red:200.0/255, green:200.0/255, blue:200.0/255, alpha:1.0)
         slide.draggedView.backgroundColor = UIColor(red:200.0/255, green:200.0/255, blue:200.0/255, alpha:1.0)
         slide.delegate = self
-        slide.thumbnailViewLeadingDistance = 20
+        slide.thumbnailViewStartingDistance = 20
         slide.defaultLabelText = "Slide To Lock"
         slide.thumnailImageView.image = #imageLiteral(resourceName: "ic_arrow")
+        return slide
+    }()
+    lazy var customizeSlideToOpen: MTSlideToOpenView = {
+        let slide = MTSlideToOpenView(frame: CGRect(x: 26, y: 300, width: 317, height: 56))
+        slide.sliderViewTopDistance = 0
+        slide.thumbnailViewTopDistance = 4;
+        slide.thumbnailViewStartingDistance = 4;
+        slide.sliderCornerRadious = 28
+        slide.thumnailImageView.backgroundColor = .white
+        slide.draggedView.backgroundColor = .clear
+        slide.delegate = self
+        slide.thumnailImageView.image = #imageLiteral(resourceName: "ic_arrow")
+        slide.defaultSliderBackgroundColor = .black
         return slide
     }()
     lazy var slideToUnlock: MTSlideToOpenView = {
@@ -65,6 +78,7 @@ class ViewController: UIViewController, MTSlideToOpenDelegate {
         super.viewDidLoad()
         self.view.addSubview(slideToOpen)
         self.view.addSubview(slideToUnlock)
+        self.view.addSubview(customizeSlideToOpen)
         self.view.addSubview(slideToLock)
     }
     

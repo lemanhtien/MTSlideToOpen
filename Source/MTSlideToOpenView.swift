@@ -45,9 +45,17 @@ public class MTSlideToOpenView: UIView {
             layoutIfNeeded()
         }
     }
-    public var thumbnailViewLeadingDistance: CGFloat = 0.0 {
+    public var thumbnailViewTopDistance: CGFloat = 0.0 {
         didSet {
-            updateThumbnailViewLeadingPosition(thumbnailViewLeadingDistance)            
+            topThumbnailViewConstraint?.constant = thumbnailViewTopDistance
+            layoutIfNeeded()
+        }
+    }
+    public var thumbnailViewStartingDistance: CGFloat = 0.0 {
+        didSet {
+            leadingThumbnailViewConstraint?.constant = thumbnailViewStartingDistance
+            trailingDraggedViewConstraint?.constant = thumbnailViewStartingDistance
+            setNeedsLayout()
         }
     }
     public var textLabelLeadingDistance: CGFloat = 0 {
@@ -82,7 +90,7 @@ public class MTSlideToOpenView: UIView {
     }
     public var defaultThumbnailColor:UIColor = UIColor(red:25.0/255, green:155.0/255, blue:215.0/255, alpha:1) {
         didSet {
-            thumnailImageView.backgroundColor = defaultSlidingColor
+            thumnailImageView.backgroundColor = defaultThumbnailColor
         }
     }
     public var defaultLabelText: String = "Swipe to open" {
@@ -94,10 +102,12 @@ public class MTSlideToOpenView: UIView {
     private var leadingThumbnailViewConstraint: NSLayoutConstraint?
     private var leadingTextLabelConstraint: NSLayoutConstraint?
     private var topSliderConstraint: NSLayoutConstraint?
+    private var topThumbnailViewConstraint: NSLayoutConstraint?
+    private var trailingDraggedViewConstraint: NSLayoutConstraint?
     private var xPositionInThumbnailView: CGFloat = 0
     private var xEndingPoint: CGFloat {
         get {
-            return (self.view.frame.maxX - thumnailImageView.bounds.height)
+            return (self.view.frame.maxX - thumnailImageView.bounds.width - thumbnailViewStartingDistance)
         }
     }
     private var isFinished: Bool = false
@@ -142,8 +152,9 @@ public class MTSlideToOpenView: UIView {
         // Setup for circle View
         leadingThumbnailViewConstraint = thumnailImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         leadingThumbnailViewConstraint?.isActive = true
-        thumnailImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        thumnailImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        topThumbnailViewConstraint = thumnailImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: thumbnailViewTopDistance)
+        topThumbnailViewConstraint?.isActive = true
+        thumnailImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         thumnailImageView.heightAnchor.constraint(equalTo: thumnailImageView.widthAnchor).isActive = true
         // Setup for slider holder view
         topSliderConstraint = sliderHolderView.topAnchor.constraint(equalTo: view.topAnchor, constant: sliderViewTopDistance)
@@ -160,8 +171,9 @@ public class MTSlideToOpenView: UIView {
         // Setup for Dragged View
         draggedView.leadingAnchor.constraint(equalTo: sliderHolderView.leadingAnchor).isActive = true
         draggedView.topAnchor.constraint(equalTo: sliderHolderView.topAnchor).isActive = true
-        draggedView.bottomAnchor.constraint(equalTo: sliderHolderView.bottomAnchor).isActive = true
-        draggedView.trailingAnchor.constraint(equalTo: thumnailImageView.trailingAnchor).isActive = true
+        draggedView.centerYAnchor.constraint(equalTo: sliderHolderView.centerYAnchor).isActive = true
+        trailingDraggedViewConstraint = draggedView.trailingAnchor.constraint(equalTo: thumnailImageView.trailingAnchor, constant: thumbnailViewStartingDistance)
+        trailingDraggedViewConstraint?.isActive = true
     }
     
     private func setStyle() {
@@ -180,7 +192,7 @@ public class MTSlideToOpenView: UIView {
         return self.thumnailImageView.frame.contains(point)
     }
     
-    private func updateThumbnailViewLeadingPosition(_ x: CGFloat) {
+    private func updateThumbnailXPosition(_ x: CGFloat) {
         leadingThumbnailViewConstraint?.constant = x
         setNeedsLayout()
     }
@@ -196,33 +208,33 @@ public class MTSlideToOpenView: UIView {
             break
         case .changed:
             if translatedPoint >= xEndingPoint {
-                updateThumbnailViewLeadingPosition(xEndingPoint)
+                updateThumbnailXPosition(xEndingPoint)
                 return
             }
-            if translatedPoint <= thumbnailViewLeadingDistance {
+            if translatedPoint <= thumbnailViewStartingDistance {
                 textLabel.alpha = 1
-                updateThumbnailViewLeadingPosition(thumbnailViewLeadingDistance)
+                updateThumbnailXPosition(thumbnailViewStartingDistance)
                 return
             }
-            updateThumbnailViewLeadingPosition(translatedPoint)
+            updateThumbnailXPosition(translatedPoint)
             textLabel.alpha = (xEndingPoint - translatedPoint) / xEndingPoint
             break
         case .ended:
             if translatedPoint >= xEndingPoint {
                 textLabel.alpha = 0
-                updateThumbnailViewLeadingPosition(xEndingPoint)
+                updateThumbnailXPosition(xEndingPoint)
                 // Finish action
                 isFinished = true
                 delegate?.mtSlideToOpenDelegateDidFinish(self)
                 return
             }
-            if translatedPoint <= thumbnailViewLeadingDistance {
+            if translatedPoint <= thumbnailViewStartingDistance {
                 textLabel.alpha = 1
-                updateThumbnailViewLeadingPosition(thumbnailViewLeadingDistance)
+                updateThumbnailXPosition(thumbnailViewStartingDistance)
                 return
             }
             UIView.animate(withDuration: animationVelocity) {
-                self.leadingThumbnailViewConstraint?.constant = self.thumbnailViewLeadingDistance
+                self.leadingThumbnailViewConstraint?.constant = self.thumbnailViewStartingDistance
                 self.textLabel.alpha = 1
                 self.layoutIfNeeded()
             }
@@ -234,7 +246,7 @@ public class MTSlideToOpenView: UIView {
     // Others
     public func resetStateWithAnimation(_ animated: Bool) {
         let action = {
-            self.leadingThumbnailViewConstraint?.constant = 0
+            self.leadingThumbnailViewConstraint?.constant = self.thumbnailViewStartingDistance
             self.textLabel.alpha = 1
             self.layoutIfNeeded()
             //
