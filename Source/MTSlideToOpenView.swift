@@ -12,7 +12,7 @@ import UIKit
     func mtSlideToOpenDelegateDidFinish(_ sender: MTSlideToOpenView)
 }
 
-public class MTSlideToOpenView: UIView {
+@objcMembers public class MTSlideToOpenView: UIView {
     // MARK: All Views
     public let textLabel: UILabel = {
         let label = UILabel.init()
