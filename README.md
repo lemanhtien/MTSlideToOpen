@@ -5,14 +5,14 @@ A simple SlideToUnlock iOS UI component
 
 
 ## Requirements
-* Swift 4.2
+* Swift 5.0
 * iOS 9.0 or later
 
 ## Installation
 
 #### Using CocoaPod
 Just add to your Pod file
-> Pod 'MTSlideToOpen'
+> pod 'MTSlideToOpen'
 
 #### Manual install
 
