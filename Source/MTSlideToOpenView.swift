@@ -302,11 +302,5 @@ class MTRoundImageView: UIImageView {
         super.layoutSubviews()
         let radius: CGFloat = self.bounds.size.width / 2.0
         self.layer.cornerRadius = radius
-        self.layer.shadowOffset = CGSize(width : 0   , height: 2)
-        self.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha:0.1).cgColor
-        self.layer.shadowOpacity = 1
-        self.layer.shadowRadius = 6
-        self.clipsToBounds = true
-        self.layer.masksToBounds = false
     }
 }
