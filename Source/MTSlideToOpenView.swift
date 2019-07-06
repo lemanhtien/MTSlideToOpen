@@ -18,6 +18,10 @@ import UIKit
         let label = UILabel.init()
         return label
     }()
+    public let sliderTextLabel: UILabel = {
+        let label = UILabel()
+        return label
+    }()
     public let thumnailImageView: UIImageView = {
         let view = MTRoundImageView()
         view.isUserInteractionEnabled = true        
@@ -69,6 +73,11 @@ import UIKit
             animationChangedEnabledBlock?(isEnabled)
         }
     }
+    public var showSliderText:Bool = false {
+        didSet {
+            sliderTextLabel.isHidden = !showSliderText
+        }
+    }
     public var animationChangedEnabledBlock:((Bool) -> Void)?
     // MARK: Default styles
     public var sliderCornerRadious: CGFloat = 30.0 {
@@ -80,12 +89,14 @@ import UIKit
     public var defaultSliderBackgroundColor: UIColor = UIColor(red:0.1, green:0.61, blue:0.84, alpha:0.1) {
         didSet {
             sliderHolderView.backgroundColor = defaultSliderBackgroundColor
+            sliderTextLabel.textColor = defaultSliderBackgroundColor
         }
     }
     
     public var defaultSlidingColor:UIColor = UIColor(red:25.0/255, green:155.0/255, blue:215.0/255, alpha:0.7) {
         didSet {
             draggedView.backgroundColor = defaultSlidingColor
+            textLabel.textColor = defaultSlidingColor
         }
     }
     public var defaultThumbnailColor:UIColor = UIColor(red:25.0/255, green:155.0/255, blue:215.0/255, alpha:1) {
@@ -96,6 +107,13 @@ import UIKit
     public var defaultLabelText: String = "Swipe to open" {
         didSet {
             textLabel.text = defaultLabelText
+            sliderTextLabel.text = defaultLabelText
+        }
+    }
+    public var textFont: UIFont = UIFont.systemFont(ofSize: 15.0) {
+        didSet {
+            textLabel.font = textFont
+            sliderTextLabel.font = textFont
         }
     }
     // MARK: Private Properties
@@ -128,6 +146,7 @@ import UIKit
         view.addSubview(thumnailImageView)
         view.addSubview(sliderHolderView)
         view.addSubview(draggedView)
+        draggedView.addSubview(sliderTextLabel)
         sliderHolderView.addSubview(textLabel)
         view.bringSubviewToFront(self.thumnailImageView)
         setupConstraint()
@@ -143,6 +162,7 @@ import UIKit
         thumnailImageView.translatesAutoresizingMaskIntoConstraints = false
         sliderHolderView.translatesAutoresizingMaskIntoConstraints = false
         textLabel.translatesAutoresizingMaskIntoConstraints = false
+        sliderTextLabel.translatesAutoresizingMaskIntoConstraints = false
         draggedView.translatesAutoresizingMaskIntoConstraints = false
         // Setup for view
         view.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
@@ -168,6 +188,11 @@ import UIKit
         leadingTextLabelConstraint = textLabel.leadingAnchor.constraint(equalTo: sliderHolderView.leadingAnchor, constant: textLabelLeadingDistance)
         leadingTextLabelConstraint?.isActive = true
         textLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: CGFloat(-8)).isActive = true
+        // Setup for sliderTextLabel
+        sliderTextLabel.topAnchor.constraint(equalTo: textLabel.topAnchor).isActive = true
+        sliderTextLabel.centerYAnchor.constraint(equalTo: textLabel.centerYAnchor).isActive = true
+        sliderTextLabel.leadingAnchor.constraint(equalTo: textLabel.leadingAnchor).isActive = true
+        sliderTextLabel.trailingAnchor.constraint(equalTo: textLabel.trailingAnchor).isActive = true
         // Setup for Dragged View
         draggedView.leadingAnchor.constraint(equalTo: sliderHolderView.leadingAnchor).isActive = true
         draggedView.topAnchor.constraint(equalTo: sliderHolderView.topAnchor).isActive = true
@@ -179,13 +204,22 @@ import UIKit
     private func setStyle() {
         thumnailImageView.backgroundColor = defaultThumbnailColor
         textLabel.text = defaultLabelText
-        textLabel.font = UIFont.systemFont(ofSize: 15.0)
-        textLabel.textColor = UIColor(red:0.1, green:0.61, blue:0.84, alpha:1)
+        textLabel.font = textFont
+        textLabel.textColor = defaultSlidingColor
         textLabel.textAlignment = .center
+
+        sliderTextLabel.text = defaultLabelText
+        sliderTextLabel.font = textFont
+        sliderTextLabel.textColor = defaultSliderBackgroundColor
+        sliderTextLabel.textAlignment = .center
+        sliderTextLabel.isHidden = !showSliderText
+
         sliderHolderView.backgroundColor = defaultSliderBackgroundColor
         sliderHolderView.layer.cornerRadius = sliderCornerRadious
         draggedView.backgroundColor = defaultSlidingColor
         draggedView.layer.cornerRadius = sliderCornerRadious
+        draggedView.clipsToBounds = true
+        draggedView.layer.masksToBounds = true
     }
     
     private func isTapOnThumbnailViewWithPoint(_ point: CGPoint) -> Bool{

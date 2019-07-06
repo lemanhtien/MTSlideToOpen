@@ -13,8 +13,10 @@ class ViewController: UIViewController, MTSlideToOpenDelegate {
         let slide = MTSlideToOpenView(frame: CGRect(x: 26, y: 100, width: 317, height: 56))
         slide.sliderViewTopDistance = 0
         slide.sliderCornerRadious = 28
-        slide.thumnailImageView.backgroundColor = .red
-        slide.draggedView.backgroundColor = UIColor(red:141.0/255, green:19.0/255, blue:65.0/255, alpha:1.0)
+        slide.showSliderText = true
+        slide.defaultThumbnailColor = UIColor(red:141.0/255, green:19.0/255, blue:65.0/255, alpha:1.0)
+        slide.defaultSlidingColor = UIColor(red:141.0/255, green:19.0/255, blue:65.0/255, alpha:1.0)
+        slide.defaultSliderBackgroundColor = UIColor(red:0.88, green:1, blue:0.98, alpha:1.0)
         slide.delegate = self
         slide.thumnailImageView.image = #imageLiteral(resourceName: "ic_arrow")
         return slide
