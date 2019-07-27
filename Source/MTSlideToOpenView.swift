@@ -80,10 +80,10 @@ import UIKit
     }
     public var animationChangedEnabledBlock:((Bool) -> Void)?
     // MARK: Default styles
-    public var sliderCornerRadious: CGFloat = 30.0 {
+    public var sliderCornerRadius: CGFloat = 30.0 {
         didSet {
-            sliderHolderView.layer.cornerRadius = sliderCornerRadious
-            draggedView.layer.cornerRadius = sliderCornerRadious
+            sliderHolderView.layer.cornerRadius = sliderCornerRadius
+            draggedView.layer.cornerRadius = sliderCornerRadius
         }
     }
     public var defaultSliderBackgroundColor: UIColor = UIColor(red:0.1, green:0.61, blue:0.84, alpha:0.1) {
@@ -215,9 +215,9 @@ import UIKit
         sliderTextLabel.isHidden = !showSliderText
 
         sliderHolderView.backgroundColor = defaultSliderBackgroundColor
-        sliderHolderView.layer.cornerRadius = sliderCornerRadious
+        sliderHolderView.layer.cornerRadius = sliderCornerRadius
         draggedView.backgroundColor = defaultSlidingColor
-        draggedView.layer.cornerRadius = sliderCornerRadious
+        draggedView.layer.cornerRadius = sliderCornerRadius
         draggedView.clipsToBounds = true
         draggedView.layer.masksToBounds = true
     }
