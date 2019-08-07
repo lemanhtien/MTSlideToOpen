@@ -30,6 +30,10 @@ Drag and drop folder `Source` to your project. Drag and drop to folder.
   slide.thumnailImageView.image = ic_arrow
 ```
 
+## SwiftUI version
+
+I built another version using SwiftUI. You can check it here [MTSlideToOpen-SwiftUI](https://github.com/lemanhtien/MTSlideToOpen-SwiftUI).
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
