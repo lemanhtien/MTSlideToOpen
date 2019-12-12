@@ -86,28 +86,33 @@ import UIKit
             draggedView.layer.cornerRadius = sliderCornerRadius
         }
     }
-    public var defaultSliderBackgroundColor: UIColor = UIColor(red:0.1, green:0.61, blue:0.84, alpha:0.1) {
+    public var sliderBackgroundColor: UIColor = UIColor(red:0.1, green:0.61, blue:0.84, alpha:0.1) {
         didSet {
-            sliderHolderView.backgroundColor = defaultSliderBackgroundColor
-            sliderTextLabel.textColor = defaultSliderBackgroundColor
+            sliderHolderView.backgroundColor = sliderBackgroundColor
+            sliderTextLabel.textColor = sliderBackgroundColor
         }
     }
     
-    public var defaultSlidingColor:UIColor = UIColor(red:25.0/255, green:155.0/255, blue:215.0/255, alpha:0.7) {
+    public var textColor:UIColor = UIColor(red:25.0/255, green:155.0/255, blue:215.0/255, alpha:0.7) {
         didSet {
-            draggedView.backgroundColor = defaultSlidingColor
-            textLabel.textColor = defaultSlidingColor
+            textLabel.textColor = textColor
         }
     }
-    public var defaultThumbnailColor:UIColor = UIColor(red:25.0/255, green:155.0/255, blue:215.0/255, alpha:1) {
+    
+    public var slidingColor:UIColor = UIColor(red:25.0/255, green:155.0/255, blue:215.0/255, alpha:0.7) {
         didSet {
-            thumnailImageView.backgroundColor = defaultThumbnailColor
+            draggedView.backgroundColor = slidingColor
         }
     }
-    public var defaultLabelText: String = "Swipe to open" {
+    public var thumbnailColor:UIColor = UIColor(red:25.0/255, green:155.0/255, blue:215.0/255, alpha:1) {
         didSet {
-            textLabel.text = defaultLabelText
-            sliderTextLabel.text = defaultLabelText
+            thumnailImageView.backgroundColor = thumbnailColor
+        }
+    }
+    public var labelText: String = "Swipe to open" {
+        didSet {
+            textLabel.text = labelText
+            sliderTextLabel.text = labelText
         }
     }
     public var textFont: UIFont = UIFont.systemFont(ofSize: 15.0) {
@@ -202,21 +207,21 @@ import UIKit
     }
     
     private func setStyle() {
-        thumnailImageView.backgroundColor = defaultThumbnailColor
-        textLabel.text = defaultLabelText
+        thumnailImageView.backgroundColor = thumbnailColor
+        textLabel.text = labelText
         textLabel.font = textFont
-        textLabel.textColor = defaultSlidingColor
+        textLabel.textColor = textColor
         textLabel.textAlignment = .center
 
-        sliderTextLabel.text = defaultLabelText
+        sliderTextLabel.text = labelText
         sliderTextLabel.font = textFont
-        sliderTextLabel.textColor = defaultSliderBackgroundColor
+        sliderTextLabel.textColor = sliderBackgroundColor
         sliderTextLabel.textAlignment = .center
         sliderTextLabel.isHidden = !showSliderText
 
-        sliderHolderView.backgroundColor = defaultSliderBackgroundColor
+        sliderHolderView.backgroundColor = sliderBackgroundColor
         sliderHolderView.layer.cornerRadius = sliderCornerRadius
-        draggedView.backgroundColor = defaultSlidingColor
+        draggedView.backgroundColor = slidingColor
         draggedView.layer.cornerRadius = sliderCornerRadius
         draggedView.clipsToBounds = true
         draggedView.layer.masksToBounds = true

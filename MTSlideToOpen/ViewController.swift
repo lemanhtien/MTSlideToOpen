@@ -14,9 +14,10 @@ class ViewController: UIViewController, MTSlideToOpenDelegate {
         slide.sliderViewTopDistance = 0
         slide.sliderCornerRadius = 28
         slide.showSliderText = true
-        slide.defaultThumbnailColor = UIColor(red:141.0/255, green:19.0/255, blue:65.0/255, alpha:1.0)
-        slide.defaultSlidingColor = UIColor(red:141.0/255, green:19.0/255, blue:65.0/255, alpha:1.0)
-        slide.defaultSliderBackgroundColor = UIColor(red:0.88, green:1, blue:0.98, alpha:1.0)
+        slide.thumbnailColor = UIColor(red:141.0/255, green:19.0/255, blue:65.0/255, alpha:1.0)
+        slide.slidingColor = UIColor.red
+        slide.textColor = UIColor.orange
+        slide.sliderBackgroundColor = UIColor(red:0.88, green:1, blue:0.98, alpha:1.0)
         slide.delegate = self
         slide.thumnailImageView.image = #imageLiteral(resourceName: "ic_arrow")
         return slide
@@ -29,7 +30,7 @@ class ViewController: UIViewController, MTSlideToOpenDelegate {
         slide.draggedView.backgroundColor = UIColor(red:200.0/255, green:200.0/255, blue:200.0/255, alpha:1.0)
         slide.delegate = self
         slide.thumbnailViewStartingDistance = 20
-        slide.defaultLabelText = "Slide To Lock"
+        slide.labelText = "Slide To Lock"
         slide.thumnailImageView.image = #imageLiteral(resourceName: "ic_arrow")
         return slide
     }()
@@ -43,7 +44,7 @@ class ViewController: UIViewController, MTSlideToOpenDelegate {
         slide.draggedView.backgroundColor = .clear
         slide.delegate = self
         slide.thumnailImageView.image = #imageLiteral(resourceName: "ic_arrow")
-        slide.defaultSliderBackgroundColor = .black
+        slide.sliderBackgroundColor = .black
         return slide
     }()
     lazy var slideToUnlock: MTSlideToOpenView = {
@@ -52,14 +53,14 @@ class ViewController: UIViewController, MTSlideToOpenDelegate {
         slide.sliderViewTopDistance = 6
         slide.sliderCornerRadius = 22
         slide.delegate = self
-        slide.defaultLabelText = "Slide To Unlock"
+        slide.labelText = "Slide To Unlock"
         slide.thumnailImageView.image = #imageLiteral(resourceName: "ic_arrow")
         slide.animationChangedEnabledBlock = { isEnabled in
             if isEnabled {
-                slide.thumnailImageView.backgroundColor = slide.defaultThumbnailColor
+                slide.thumnailImageView.backgroundColor = slide.thumbnailColor
                 slide.draggedView.isHidden = false
-                slide.thumnailImageView.backgroundColor = slide.defaultSliderBackgroundColor
-                slide.textLabel.text = slide.defaultLabelText
+                slide.thumnailImageView.backgroundColor = slide.sliderBackgroundColor
+                slide.textLabel.text = slide.labelText
                 slide.thumnailImageView.layer.shadowOpacity = 0
             } else {
                 slide.thumnailImageView.backgroundColor = UIColor(red:210.0/255, green:219.0/255, blue:228.0/255, alpha:0.8)
