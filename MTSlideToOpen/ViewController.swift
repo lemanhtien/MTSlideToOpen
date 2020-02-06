@@ -88,8 +88,10 @@ class ViewController: UIViewController, MTSlideToOpenDelegate {
     // MARK: MTSlideToOpenDelegate
     func mtSlideToOpenDelegateDidFinish(_ sender: MTSlideToOpenView) {
         let alertController = UIAlertController(title: "", message: "Done!", preferredStyle: .alert)
+        sender.startAnimating()
         let doneAction = UIAlertAction(title: "Okay", style: .default) { (action) in
             sender.resetStateWithAnimation(false)
+            sender.stopAnimating()
         }
         alertController.addAction(doneAction)
         self.present(alertController, animated: true, completion: nil)
