@@ -218,6 +218,11 @@ import UIKit
         sliderTextLabel.textColor = sliderBackgroundColor
         sliderTextLabel.textAlignment = .center
         sliderTextLabel.isHidden = !showSliderText
+        
+        if isOnRightToLeftLanguage() {
+            textLabel.mt_flipView()
+            sliderTextLabel.mt_flipView()
+        }
 
         sliderHolderView.backgroundColor = sliderBackgroundColor
         sliderHolderView.layer.cornerRadius = sliderCornerRadius
@@ -241,7 +246,7 @@ import UIKit
         if isFinished || !isEnabled {
             return
         }
-        let translatedPoint = sender.translation(in: view).x
+        let translatedPoint = sender.translation(in: view).x * (self.isOnRightToLeftLanguage() ? -1 : 1)
         switch sender.state {
         case .began:
             break
@@ -299,8 +304,19 @@ import UIKit
             action()
         }
     }
+    
+    // MARK: Helpers
+    
+    func isOnRightToLeftLanguage() -> Bool {
+        return UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft
+    }
 }
 
+extension UIView {
+   func mt_flipView() {
+       self.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+   }
+}
 
 class MTRoundImageView: UIImageView {
     override func layoutSubviews() {
