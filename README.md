@@ -1,8 +1,12 @@
 # MTSlideToOpen
 A simple SlideToUnlock iOS UI component
 
-<a href="url"><img src="https://raw.githubusercontent.com/lemanhtien/MTSlideToOpen/master/Screenshot.png" align="center" height="500" ></a>
+A simple SlideToUnlock iOS UI component. Support both **Left-To-Right** and **Right-To-Left** languages.
 
+<p float="left">
+  <a href="url"><img src="https://raw.githubusercontent.com/lemanhtien/MTSlideToOpen/master/Screenshot.png" align="center" height="500" ></a>
+  <a href="url"><img src="https://raw.githubusercontent.com/lemanhtien/MTSlideToOpen/master/Right-To-Left.png" align="center" height="500" ></a>
+</p>
 
 ## Requirements
 * Swift 5.0
