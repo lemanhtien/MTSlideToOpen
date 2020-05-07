@@ -19,7 +19,8 @@ class ViewController: UIViewController, MTSlideToOpenDelegate {
         slide.textColor = UIColor.orange
         slide.sliderBackgroundColor = UIColor(red:0.88, green:1, blue:0.98, alpha:1.0)
         slide.delegate = self
-        slide.thumnailImageView.image = #imageLiteral(resourceName: "ic_arrow")
+        slide.thumnailImageView.image = #imageLiteral(resourceName: "ic_arrow").imageFlippedForRightToLeftLayoutDirection()
+
         return slide
     }()
     lazy var slideToLock: MTSlideToOpenView = {
@@ -31,7 +32,7 @@ class ViewController: UIViewController, MTSlideToOpenDelegate {
         slide.delegate = self
         slide.thumbnailViewStartingDistance = 20
         slide.labelText = "Slide To Lock"
-        slide.thumnailImageView.image = #imageLiteral(resourceName: "ic_arrow")
+        slide.thumnailImageView.image = #imageLiteral(resourceName: "ic_arrow").imageFlippedForRightToLeftLayoutDirection()
         return slide
     }()
     lazy var customizeSlideToOpen: MTSlideToOpenView = {
@@ -43,7 +44,7 @@ class ViewController: UIViewController, MTSlideToOpenDelegate {
         slide.thumnailImageView.backgroundColor = .white
         slide.draggedView.backgroundColor = .clear
         slide.delegate = self
-        slide.thumnailImageView.image = #imageLiteral(resourceName: "ic_arrow")
+        slide.thumnailImageView.image = #imageLiteral(resourceName: "ic_arrow").imageFlippedForRightToLeftLayoutDirection()
         slide.sliderBackgroundColor = .black
         return slide
     }()
@@ -54,7 +55,7 @@ class ViewController: UIViewController, MTSlideToOpenDelegate {
         slide.sliderCornerRadius = 22
         slide.delegate = self
         slide.labelText = "Slide To Unlock"
-        slide.thumnailImageView.image = #imageLiteral(resourceName: "ic_arrow")
+        slide.thumnailImageView.image = #imageLiteral(resourceName: "ic_arrow").imageFlippedForRightToLeftLayoutDirection()
         slide.animationChangedEnabledBlock = { isEnabled in
             if isEnabled {
                 slide.thumnailImageView.backgroundColor = slide.thumbnailColor
