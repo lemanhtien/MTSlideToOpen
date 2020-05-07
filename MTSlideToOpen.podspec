@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "MTSlideToOpen"
-  s.version      = "1.5.0"
+  s.version      = "1.5.1"
   s.summary      = "A simple SlideToUnlock iOS UI component."
 
   s.description  = "A simple iOS UI component acts Slide To Unlock."
