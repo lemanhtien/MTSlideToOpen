@@ -28,9 +28,9 @@ Drag and drop folder `Source` to your project. Drag and drop to folder.
 ```
   let slide = MTSlideToOpenView(frame: CGRect(x: 26, y: 400, width: 317, height: 56))
   slide.sliderViewTopDistance = 6
-  slide.sliderCornerRadious = 22
+  slide.sliderCornerRadius = 22
   slide.delegate = self
-  slide.defaultLabelText = "Slide To Unlock"
+  slide.labelText = "Slide To Unlock"
   slide.thumnailImageView.image = ic_arrow
 ```
 
