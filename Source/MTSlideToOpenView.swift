@@ -24,7 +24,7 @@ import UIKit
     }()
     public let thumnailImageView: UIImageView = {
         let view = MTRoundImageView()
-        view.isUserInteractionEnabled = true        
+        view.isUserInteractionEnabled = true
         view.contentMode = .center
         return view
     }()
@@ -40,6 +40,18 @@ import UIKit
         let view = UIView()
         return view
     }()
+    
+    public let activityIndicatorView: UIActivityIndicatorView = {
+        let a = UIActivityIndicatorView.init()
+        if #available(iOS 13.0, *) {
+            a.style = .whiteLarge
+        } else {
+            // Fallback on earlier versions
+        }
+        a.hidesWhenStopped = true
+        return a
+    }()
+    
     // MARK: Public properties
     public weak var delegate: MTSlideToOpenDelegate?
     public var animationVelocity: Double = 0.2
@@ -143,7 +155,7 @@ import UIKit
     
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
-        setupView()        
+        setupView()
     }
     
     private func setupView() {
@@ -151,6 +163,7 @@ import UIKit
         view.addSubview(thumnailImageView)
         view.addSubview(sliderHolderView)
         view.addSubview(draggedView)
+        view.addSubview(activityIndicatorView)
         draggedView.addSubview(sliderTextLabel)
         sliderHolderView.addSubview(textLabel)
         view.bringSubviewToFront(self.thumnailImageView)
@@ -169,6 +182,7 @@ import UIKit
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         sliderTextLabel.translatesAutoresizingMaskIntoConstraints = false
         draggedView.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         // Setup for view
         view.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         view.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
@@ -198,6 +212,11 @@ import UIKit
         sliderTextLabel.centerYAnchor.constraint(equalTo: textLabel.centerYAnchor).isActive = true
         sliderTextLabel.leadingAnchor.constraint(equalTo: textLabel.leadingAnchor).isActive = true
         sliderTextLabel.trailingAnchor.constraint(equalTo: textLabel.trailingAnchor).isActive = true
+        // Setup for sliderTextLabel
+        activityIndicatorView.topAnchor.constraint(equalTo: textLabel.topAnchor).isActive = true
+        activityIndicatorView.centerYAnchor.constraint(equalTo: textLabel.centerYAnchor).isActive = true
+        activityIndicatorView.leadingAnchor.constraint(equalTo: textLabel.leadingAnchor).isActive = true
+        activityIndicatorView.trailingAnchor.constraint(equalTo: textLabel.trailingAnchor).isActive = true
         // Setup for Dragged View
         draggedView.leadingAnchor.constraint(equalTo: sliderHolderView.leadingAnchor).isActive = true
         draggedView.topAnchor.constraint(equalTo: sliderHolderView.topAnchor).isActive = true
@@ -230,6 +249,21 @@ import UIKit
         draggedView.layer.cornerRadius = sliderCornerRadius
         draggedView.clipsToBounds = true
         draggedView.layer.masksToBounds = true
+    }
+    
+    
+    func startAnimating() {
+        thumnailImageView.isHidden = true
+        textLabel.isHidden = true
+        sliderTextLabel.isHidden = true
+        activityIndicatorView.startAnimating()
+    }
+    
+    func stopAnimating() {
+        thumnailImageView.isHidden = false
+        textLabel.isHidden = false
+        sliderTextLabel.isHidden = false
+        activityIndicatorView.stopAnimating()
     }
     
     private func isTapOnThumbnailViewWithPoint(_ point: CGPoint) -> Bool{
